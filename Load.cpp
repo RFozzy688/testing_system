@@ -93,3 +93,30 @@ void Load::OpenFile(string path)
 {
     inf.open(path, ios::in);
 }
+
+void Load::LoadTest(vector<Question>& questions)
+{
+    if (inf.peek() == EOF)
+    {
+        return;
+    }
+
+    questions.clear();
+    Question testQuestion;
+    string str;
+    int number;
+
+    while (!inf.eof())
+    {
+        questions.push_back(testQuestion);
+
+        getline(inf, questions.back().question);
+        getline(inf, questions.back().answer_1);
+        getline(inf, questions.back().answer_2);
+        getline(inf, questions.back().answer_3);
+        getline(inf, questions.back().answer_4);
+        getline(inf, str);
+        number = stoi(str);
+        questions.back().trueAnswer = number;
+    }
+}

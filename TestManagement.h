@@ -42,5 +42,10 @@ public:
     void ChoiceTest();
     void DeleteTest();
     void DeleteChapter();
+    void ShowTest();
+    int PrintMenuEditTest();
+    void ShowQuestion(int index);
+    void DeleteQuestion();
+    void AddQuestion();
 };
 

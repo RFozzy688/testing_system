@@ -506,6 +506,157 @@ void TestManagement::DeleteChapter()
     }
 }
 
+void TestManagement::ShowTest()
+{
+    int countQuestions = 1;
+    int countAnswer = 1;
+
+    for (auto it : questions)
+    {
+        cout << countQuestions++ << ". " << it.question << endl;
+        cout << "  " << countAnswer++ << ") " << it.answer_1 << endl;
+        cout << "  " << countAnswer++ << ") " << it.answer_2 << endl;
+        cout << "  " << countAnswer++ << ") " << it.answer_3 << endl;
+        cout << "  " << countAnswer++ << ") " << it.answer_4 << endl;
+        cout << "  Правильный ответ: " << it.trueAnswer << endl << endl;
+
+        countAnswer = 1;
+    }
+}
+
+int TestManagement::PrintMenuEditTest()
+{
+    cout << "\n Редактировать тест\n";
+    cout << "\n 1 - Добавить вопрос | 2 - Удалить вопрос | Esc - Выход\n";
+    cout << " > ";
+
+    int key = _getch();
+
+    cin.ignore(cin.rdbuf()->in_avail()); // очищаем поток ввода от лишних символов
+
+    return key;
+}
+
+void TestManagement::ShowQuestion(int index)
+{
+    //cout << index + 1 << ". " << questions[index].question << endl;
+    //cout << "  " << countAnswer++ << ") " << answer_1 << endl;
+    //cout << "  " << countAnswer++ << ") " << answer_2 << endl;
+    //cout << "  " << countAnswer++ << ") " << answer_3 << endl;
+    //cout << "  " << countAnswer++ << ") " << answer_4 << endl;
+    //cout << "  Правильный ответ: " << it.trueAnswer << endl << endl;
+}
+
+void TestManagement::DeleteQuestion()
+{
+    COORD pos;
+    int index;
+
+    if (questions.empty())
+    {
+        cout << "\n\n Нет вопросов для удаления";
+        Sleep(3000);
+        return;
+    }
+
+    while (true)
+    {
+        system("cls");
+
+        pos.X = 0;
+        pos.Y = 7;
+        SetConsoleCursorPosition(hConsole, pos);
+        ShowTest();
+
+        pos.X = 0;
+        pos.Y = 0;
+        SetConsoleCursorPosition(hConsole, pos);
+
+        cout << "\n Редактировать тест\n";
+        cout << "\n Номер вопроса для удаления: ";
+        cin >> index;
+
+        if (cin.fail())
+        {
+            cin.clear();
+            cin.ignore();
+
+            continue;
+        }
+
+        index--;
+
+        if (index >= 0 && index < questions.size())
+        {
+            vector<Question>::iterator iter = questions.begin() + index;
+            questions.erase(iter);
+
+            system("cls");
+
+            pos.X = 0;
+            pos.Y = 7;
+            SetConsoleCursorPosition(hConsole, pos);
+            ShowTest();
+
+            pos.X = 0;
+            pos.Y = 4;
+            SetConsoleCursorPosition(hConsole, pos);
+
+            cout << " Продолжить удаление?(y/n): ";
+            int key = _getch();
+            cin.ignore(cin.rdbuf()->in_avail()); // очищаем поток ввода от лишних символов
+
+            if (key == 'y')
+            {
+                continue;
+            }
+            else
+            {
+                break;
+            }
+        }
+    }
+
+}
+
+void TestManagement::AddQuestion()
+{
+    Question testQuestion;
+
+    questions.clear();
+
+    while (true)
+    {
+        system("cls");
+
+        cout << endl;
+        cout << " Вопрос: ";
+        getline(cin, testQuestion.question);
+        cout << "\n 1 - Ответ: ";
+        getline(cin, testQuestion.answer_1);
+        cout << " 2 - Ответ: ";
+        getline(cin, testQuestion.answer_2);
+        cout << " 3 - Ответ: ";
+        getline(cin, testQuestion.answer_3);
+        cout << " 4 - Ответ: ";
+        getline(cin, testQuestion.answer_4);
+        cout << " Номер правильного ответа: ";
+        cin >> testQuestion.trueAnswer;
+
+        questions.push_back(testQuestion);
+
+        cout << "\n Продолжить?(y/n): ";
+        int key = _getch();
+
+        cin.ignore(cin.rdbuf()->in_avail()); // очищаем поток ввода от лишних символов
+
+        if (key == 'n')
+        {
+            break;
+        }
+    }
+}
+
 TestManagement::TestManagement()
 {
     LoadingTestsTree(testsTree, rootCatalog);
@@ -521,8 +672,7 @@ int TestManagement::PrintMenuTestManagement()
     system("cls");
 
     cout << "\n Управление тестами\n";
-    cout << "\n 1 - Создать тест | 2 - Редактировать тест | 3 - Удалить тест | 4 - Удалить категорию";
-    cout << "\n 5 - Пароль | 6 - Адрес | 7 - Телефон | Esc - Выход\n";
+    cout << "\n 1 - Создать тест | 2 - Редактировать тест | 3 - Удалить тест | 4 - Удалить категорию | Esc - Выход\n";
     cout << " > ";
 
     int key = _getch();
@@ -565,9 +715,63 @@ void TestManagement::StartTestManagement()
             }
             break;
         }
-        case 50: // 2 
+        case 50: // 2 edit test
         {
-            
+            COORD pos;
+            int index;
+
+            system("cls");
+            cout << "\n Редактировать тест";
+
+            pos.X = 0;
+            pos.Y = 6;
+            SetConsoleCursorPosition(hConsole, pos);
+            PrintTestsTree();
+
+            pos.X = 0;
+            pos.Y = 2;
+            SetConsoleCursorPosition(hConsole, pos);
+            ChoiceTest();
+            Load load(currentTest);
+            load.LoadTest(questions);
+            load.CloseFile();
+
+            int key = 0;
+
+            while (key != 27) // esc
+            {
+                system("cls");
+
+                pos.X = 0;
+                pos.Y = 7;
+                SetConsoleCursorPosition(hConsole, pos);
+                ShowTest();
+
+                pos.X = 0;
+                pos.Y = 0;
+                SetConsoleCursorPosition(hConsole, pos);
+                key = PrintMenuEditTest();
+
+                switch (key)
+                {
+                    case 49: // 1
+                    {
+                        AddQuestion();
+                        break;
+                    }
+                    case 50: // 2
+                    {
+                        DeleteQuestion();
+                        break;
+                    }
+                default:
+                    break;
+                }
+            }
+
+            Save save(currentTest);
+            save.SaveTest(questions);
+            save.CloseFile();
             break;
         }
         case 51: // 3 Delete Test
@@ -578,21 +782,6 @@ void TestManagement::StartTestManagement()
         case 52: // 4 Delete chapter
         {
             DeleteChapter();
-            break;
-        }
-        case 53: // 5
-        {
-
-            break;
-        }
-        case 54: // 6
-        {
-   
-            break;
-        }
-        case 55: // 7
-        {
-
             break;
         }
         default:
