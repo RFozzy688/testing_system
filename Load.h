@@ -1,0 +1,24 @@
+#pragma once
+#include <iostream>
+#include <fstream>
+#include <string>
+#include <vector>
+#include "Admin.h"
+#include "User.h"
+using namespace std;
+
+class Load
+{
+    ifstream inf;
+
+    string XorOperation(string inStr);
+
+public:
+    Load(string path);
+    ~Load();
+
+    void LoadDataPersons(vector<Person*>& users);
+    void CloseFile();
+    void OpenFile(string path);
+};
+
