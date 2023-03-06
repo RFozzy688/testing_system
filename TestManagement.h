@@ -30,6 +30,7 @@ public:
     void StartTestManagement();
     void LoadingTestsTree(map<string, vector<string>>& paths, const string& current_path);
     void PrintTestsTree();
+    void PrintChapter();
     int PrintMenuCreateTest();
     void CreateChapter();
     void CreateTest();
@@ -40,5 +41,6 @@ public:
     void ChoiceChapter();
     void ChoiceTest();
     void DeleteTest();
+    void DeleteChapter();
 };
 

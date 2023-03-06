@@ -60,6 +60,16 @@ void TestManagement::PrintTestsTree()
     }
 }
 
+void TestManagement::PrintChapter()
+{
+    int count = 1;
+
+    for (auto it : testsTree)
+    {
+        cout << " " << count++ << ". " << it.first.substr(it.first.rfind("\\") + 1) << endl;
+    }
+}
+
 int TestManagement::PrintMenuCreateTest()
 {
     system("cls");
@@ -77,39 +87,44 @@ int TestManagement::PrintMenuCreateTest()
 
 void TestManagement::CreateChapter()
 {
-    system("cls");
-
-    string newChapter;
-
-    cout << "\n Создать тест\n";
-    cout << "\n Название раздела: ";
-    getline(cin, newChapter);
-
-    if (IsChapter(newChapter))
+    while (true)
     {
-        cout << " Раздел " + newChapter + " существует.\n";
-        cout << " Создать тест в этом разделе?(y/n)";
-        int key = _getch();
+        system("cls");
 
-        if (key == 'y')
+        string newChapter;
+
+        cout << "\n Создать тест\n";
+        cout << "\n Название раздела: ";
+        getline(cin, newChapter);
+
+        if (IsChapter(newChapter))
         {
-            chapter = rootCatalog + "\\" + newChapter;
-        } 
+            cout << " Раздел " + newChapter + " существует.\n";
+            cout << " Создать тест в этом разделе?(y/n)";
+            int key = _getch();
+
+            if (key == 'y')
+            {
+                chapter = rootCatalog + "\\" + newChapter;
+                break;
+            }
+            else
+            {
+                continue;
+            }
+        }
         else
         {
-            cout << "n\n";
+            chapter.clear();
+            chapter = rootCatalog + "\\" + newChapter;
+
+            tests.clear();
+            pair<string, vector<string>> element(chapter, tests);
+            testsTree.insert(element);
+
+            filesystem::create_directories(chapter);
+            break;
         }
-    } 
-    else
-    {
-        chapter.clear();
-        chapter = rootCatalog + "\\" + newChapter;
-
-        tests.clear();
-        pair<string, vector<string>> element(chapter, tests);
-        testsTree.insert(element);
-
-        filesystem::create_directories(chapter);
     }
 }
 
@@ -246,24 +261,17 @@ void TestManagement::ChoiceChapter()
 
     while (true)
     {
-        system("cls");
-
         pos.X = 0;
-        pos.Y = 5;
-        SetConsoleCursorPosition(hConsole, pos);
-        int count = 1;
-
-        for (auto it : testsTree)
-        {
-            cout << " " << count++ << ". " << it.first.substr(it.first.rfind("\\") + 1) << endl;
-        }
-
-        pos.X = 0;
-        pos.Y = 0;
+        pos.Y = 7;
         SetConsoleCursorPosition(hConsole, pos);
 
-        cout << "\n Создать тест\n";
-        cout << "\n Номер раздела: ";
+        PrintChapter();
+
+        pos.X = 0;
+        pos.Y = 3;
+        SetConsoleCursorPosition(hConsole, pos);
+
+        cout << " Номер раздела: ";
         cin >> number;
 
         if (cin.fail())
@@ -407,7 +415,6 @@ void TestManagement::DeleteTest()
         pos.X = 0;
         pos.Y = 7;
         SetConsoleCursorPosition(hConsole, pos);
-        //int count = 1;
 
         PrintTestsTree();
 
@@ -431,7 +438,6 @@ void TestManagement::DeleteTest()
         pos.X = 0;
         pos.Y = 7;
         SetConsoleCursorPosition(hConsole, pos);
-        //int count = 1;
 
         PrintTestsTree();
 
@@ -452,6 +458,52 @@ void TestManagement::DeleteTest()
             break;
         }
     } 
+}
+
+void TestManagement::DeleteChapter()
+{
+    COORD pos;
+
+    while (true)
+    {
+        system("cls");
+
+        cout << "\n Удаление раздела\n";
+
+        ChoiceChapter();
+        map<string, vector<string>>::iterator iter = testsTree.find(chapter);
+
+        filesystem::remove_all(iter->first);
+        testsTree.erase(iter);
+        chapter.clear();
+
+        system("cls");
+
+        cout << "\n Раздел удален\n";
+
+        pos.X = 0;
+        pos.Y = 7;
+        SetConsoleCursorPosition(hConsole, pos);
+
+        PrintChapter();
+
+        pos.X = 0;
+        pos.Y = 4;
+        SetConsoleCursorPosition(hConsole, pos);
+
+        cout << " Продолжить удаление?(y/n): ";
+        int key = _getch();
+        cin.ignore(cin.rdbuf()->in_avail()); // очищаем поток ввода от лишних символов
+
+        if (key == 'y')
+        {
+            continue;
+        }
+        else
+        {
+            break;
+        }
+    }
 }
 
 TestManagement::TestManagement()
@@ -503,6 +555,8 @@ void TestManagement::StartTestManagement()
                 }
                 case 50: // 2
                 {
+                    system("cls");
+                    cout << "\n Создать тест\n";
                     ChoiceChapter();
                     AddTestToMap(InputNameTest());
                     CreateTest();
@@ -511,7 +565,7 @@ void TestManagement::StartTestManagement()
             }
             break;
         }
-        case 50: // 2
+        case 50: // 2 
         {
             
             break;
@@ -519,12 +573,11 @@ void TestManagement::StartTestManagement()
         case 51: // 3 Delete Test
         {
             DeleteTest();
-            _getch();
             break;
         }
-        case 52: // 4
+        case 52: // 4 Delete chapter
         {
- 
+            DeleteChapter();
             break;
         }
         case 53: // 5
