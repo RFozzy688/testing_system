@@ -38,8 +38,8 @@ void Authentication::InputLogin()
 
     SetConsoleCursorPosition(hConsole, pos);
 
-    //cin >> login;
-    login = "admin";
+    cin >> login;
+    //login = "admin";
 }
 
 void Authentication::InputPassword()
@@ -50,8 +50,8 @@ void Authentication::InputPassword()
 
     SetConsoleCursorPosition(hConsole, pos);
 
-    //cin >> password;
-    password = "admin";
+    cin >> password;
+    //password = "admin";
 }
 
 void Authentication::PrintLoginScreen()
@@ -68,7 +68,19 @@ bool Authentication::CheckingData()
     {
         if (login == it->GetLogin() && password == it->GetPassword())
         {
-            currentPerson = it;
+            User* obj = dynamic_cast<User*>(it);
+
+            if (obj)
+            {
+                string path = "users\\" + it->GetLogin() + "\\" + it->GetLogin() + "_stat.txt";
+                obj->SetPathStat(path);
+                currentPerson = obj;
+            }
+            else
+            {
+                currentPerson = it;
+            }
+
             return true;
         }
     }

@@ -165,7 +165,7 @@ void ModeAdmin::StartMode()
         {
             break;
         }
-        case 53: // 5
+        case 53: // 5 Test Management
         {
             TestManagement testManagement;
             testManagement.StartTestManagement();
