@@ -2,6 +2,7 @@
 #include <conio.h>
 #include <windows.h>
 #include <vector>
+#include <filesystem>
 #include "Admin.h"
 #include "Edit.h"
 #include "Save.h"
@@ -26,5 +27,6 @@ public:
     void StartMode();
     int PrintMainMenu();
     vector<Person*>::iterator ChoiceUser();
+    void DeleteUserFolder();
 };
 

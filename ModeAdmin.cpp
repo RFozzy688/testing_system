@@ -185,6 +185,7 @@ void ModeAdmin::StartMode()
 
             if (choice == 'y')
             {
+                DeleteUserFolder();
                 person.erase(iter);
 
                 Save save("dbpersons.txt");
@@ -275,4 +276,15 @@ vector<Person*>::iterator ModeAdmin::ChoiceUser()
     }
 
     return iter;
+}
+
+void ModeAdmin::DeleteUserFolder()
+{
+    User* obj = dynamic_cast<User*>(*iter);
+
+    if (obj)
+    {
+        string path = "users\\" + obj->GetLogin();
+        filesystem::remove_all(path);
+    }
 }
