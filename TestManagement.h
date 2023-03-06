@@ -44,8 +44,8 @@ public:
     void DeleteChapter();
     void ShowTest();
     int PrintMenuEditTest();
-    void ShowQuestion(int index);
     void DeleteQuestion();
     void AddQuestion();
+    string GetCurrentTest();
 };
 

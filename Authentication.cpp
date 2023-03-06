@@ -38,8 +38,9 @@ void Authentication::InputLogin()
 
     SetConsoleCursorPosition(hConsole, pos);
 
-    cin >> login;
+    //cin >> login;
     //login = "admin";
+    login = "qwerty1";
 }
 
 void Authentication::InputPassword()
@@ -50,8 +51,9 @@ void Authentication::InputPassword()
 
     SetConsoleCursorPosition(hConsole, pos);
 
-    cin >> password;
+    //cin >> password;
     //password = "admin";
+    password = "qwerty";
 }
 
 void Authentication::PrintLoginScreen()

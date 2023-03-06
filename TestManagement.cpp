@@ -537,16 +537,6 @@ int TestManagement::PrintMenuEditTest()
     return key;
 }
 
-void TestManagement::ShowQuestion(int index)
-{
-    //cout << index + 1 << ". " << questions[index].question << endl;
-    //cout << "  " << countAnswer++ << ") " << answer_1 << endl;
-    //cout << "  " << countAnswer++ << ") " << answer_2 << endl;
-    //cout << "  " << countAnswer++ << ") " << answer_3 << endl;
-    //cout << "  " << countAnswer++ << ") " << answer_4 << endl;
-    //cout << "  Правильный ответ: " << it.trueAnswer << endl << endl;
-}
-
 void TestManagement::DeleteQuestion()
 {
     COORD pos;
@@ -655,6 +645,11 @@ void TestManagement::AddQuestion()
             break;
         }
     }
+}
+
+string TestManagement::GetCurrentTest()
+{
+    return currentTest;
 }
 
 TestManagement::TestManagement()

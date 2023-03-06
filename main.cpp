@@ -5,7 +5,7 @@
 #include "Authentication.h"
 #include "Registration.h"
 #include "ModeAdmin.h"
-//#include "func.h"
+#include "ModeCustom.h"
 
 using namespace std;
 
@@ -22,7 +22,7 @@ int main()
 
     Person* currentUser = nullptr;
     int key = 0;
-    Mode EMode = Mode::_INDEFINED;
+    Mode EMode = /*Mode::*/_INDEFINED;
 
     while (key != 27) // Esc
     {
@@ -100,12 +100,13 @@ int main()
         //    break;
         }
 
-        if (EMode == Mode::_CUSTOM)
+        if (EMode == /*Mode::*/_CUSTOM)
         {
-            cout << endl;
-            currentUser->PrintInfoPerson();
-            currentUser->PrintInfoAuthentication();
-            _getch();
+            User* user = dynamic_cast<User*>(currentUser);
+            currentUser = nullptr;
+            ModeCustom modeCustom(user);
+            modeCustom.StartMode();
+            EMode = _INDEFINED;
         } 
         else if (EMode == _ADMIN)
         {
@@ -113,7 +114,7 @@ int main()
             currentUser = nullptr;
             ModeAdmin modeAdmin(admin);
             modeAdmin.StartMode();
-            EMode = Mode::_INDEFINED;
+            EMode = /*Mode::*/_INDEFINED;
         }
     }
 
