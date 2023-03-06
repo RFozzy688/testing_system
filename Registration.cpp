@@ -178,6 +178,21 @@ void Registration::DeepCopy(User* obj)
     temp->SetPassword(obj->GetPassword());
 }
 
+void Registration::CreateUserFolder(User* obj)
+{
+    string path;
+
+    path = "users\\" + obj->GetLogin();
+    filesystem::create_directory(path);
+
+    path = path + "\\" + obj->GetLogin() + "_stat.txt";
+
+    save = new Save(path);
+    save->CloseFile();
+
+    obj->SetPathStat(path);
+}
+
 Registration::Registration()
 {
     hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
@@ -246,12 +261,9 @@ bool Registration::RegistrationUser(User* obj)
     {
         DeepCopy(obj);
         SaveData();
+        CreateUserFolder(obj);
         return true;
     }
     else
         return false;
-}
-
-void Registration::RegistrationAdmin(Admin* obj)
-{
 }

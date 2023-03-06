@@ -5,6 +5,7 @@ class User : public Person
 {
     string phone;
     string adress;
+    string pathStat;
 
 public:
     User();
@@ -15,6 +16,9 @@ public:
 
     void SetAdress(string adress);
     string GetAdress();
+
+    void SetPathStat(string pathStat);
+    string GetPathStat();
 
     void PrintUserInfo();
 };

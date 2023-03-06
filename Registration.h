@@ -4,6 +4,7 @@
 #include <vector>
 #include <algorithm>
 #include <conio.h>
+#include <filesystem>
 #include "User.h"
 #include "Admin.h"
 #include "Load.h"
@@ -28,11 +29,10 @@ protected:
     void ClearScreen(COORD pos);
     void DeleteVector();
     void DeepCopy(User* obj);
+    void CreateUserFolder(User* obj);
 public:
     Registration();
     ~Registration();
     bool RegistrationUser(User* obj);
-    void RegistrationAdmin(Admin* obj);
-
 };
 
