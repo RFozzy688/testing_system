@@ -400,38 +400,58 @@ void TestManagement::DeleteTest()
 {
     COORD pos;
 
-    system("cls");
+    while (true)
+    {
+        system("cls");
 
-    pos.X = 0;
-    pos.Y = 7;
-    SetConsoleCursorPosition(hConsole, pos);
-    int count = 1;
+        pos.X = 0;
+        pos.Y = 7;
+        SetConsoleCursorPosition(hConsole, pos);
+        //int count = 1;
 
-    PrintTestsTree();
+        PrintTestsTree();
 
-    pos.X = 0;
-    pos.Y = 0;
-    SetConsoleCursorPosition(hConsole, pos);
+        pos.X = 0;
+        pos.Y = 0;
+        SetConsoleCursorPosition(hConsole, pos);
 
-    cout << "\n Удаление теста\n";
+        cout << "\n Удаление теста\n";
 
-    ChoiceTest();
-    map<string, vector<string>>::iterator iter_map = testsTree.find(chapter);
-    vector<string>::iterator iter_vec = iter_map->second.begin() + numberTest;
+        ChoiceTest();
+        map<string, vector<string>>::iterator iter_map = testsTree.find(chapter);
+        vector<string>::iterator iter_vec = iter_map->second.begin() + numberTest;
 
-    filesystem::remove(*iter_vec);
-    iter_map->second.erase(iter_vec);
+        filesystem::remove(*iter_vec);
+        iter_map->second.erase(iter_vec);
 
-    cout << " Продолжить удаление?(y/n): ";
-    int key = _getch();
-    cin.ignore(cin.rdbuf()->in_avail()); // очищаем поток ввода от лишних символов
+        system("cls");
 
-    //if ()
-    //{
-    //} 
-    //else
-    //{
-    //}
+        cout << "\n Тест удален\n";
+
+        pos.X = 0;
+        pos.Y = 7;
+        SetConsoleCursorPosition(hConsole, pos);
+        //int count = 1;
+
+        PrintTestsTree();
+
+        pos.X = 0;
+        pos.Y = 6;
+        SetConsoleCursorPosition(hConsole, pos);
+
+        cout << " Продолжить удаление?(y/n): ";
+        int key = _getch();
+        cin.ignore(cin.rdbuf()->in_avail()); // очищаем поток ввода от лишних символов
+
+        if (key == 'y')
+        {
+            continue;
+        }
+        else
+        {
+            break;
+        }
+    } 
 }
 
 TestManagement::TestManagement()
