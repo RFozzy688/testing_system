@@ -47,5 +47,6 @@ public:
     void DeleteQuestion();
     void AddQuestion();
     string GetCurrentTest();
+    string GetCurrentChapter();
 };
 

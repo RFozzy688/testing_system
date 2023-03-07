@@ -10,7 +10,6 @@ void User::SetAdress(string adress) { this->adress = adress; }
 string User::GetAdress() { return adress; }
 
 void User::SetPathStat(string pathStat) { this->pathStat = pathStat; }
-
 string User::GetPathStat() { return pathStat; }
 
 void User::PrintUserInfo()

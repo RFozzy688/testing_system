@@ -14,6 +14,7 @@ struct Question
 
 struct UserGrade
 {
+    string nameChapter;
     string nameTest;
     int countTrueAnswer;
     int percentTrueAnswer;

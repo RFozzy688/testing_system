@@ -22,5 +22,6 @@ public:
     void CloseFile();
     void OpenFile(string path);
     void LoadTest(vector<Question>& questions);
+    void LoadingUserStat(vector<UserGrade>& userStat);
 };
 

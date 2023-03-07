@@ -20,6 +20,10 @@ ModeCustom::ModeCustom(User* user)
     this->user = user;
     hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
     userGrade = { };
+
+    Load load(user->GetPathStat());
+    load.LoadingUserStat(userStat);
+    load.CloseFile();
 }
 
 ModeCustom::~ModeCustom()
@@ -62,6 +66,8 @@ void ModeCustom::StartMode()
             obj.ChoiceTest();
 
             fullNameTest = obj.GetCurrentTest();
+            fullNameChapter = obj.GetCurrentChapter();
+            SetConsoleCP(1251);
             Load load(fullNameTest);
             load.LoadTest(questions);
             load.CloseFile();
@@ -69,6 +75,11 @@ void ModeCustom::StartMode()
             Testing();
             ResultTest();
             PrintResult();
+            UpdateStat();
+
+            Save save(user->GetPathStat());
+            save.SavingUserStat(userStat);
+            save.CloseFile();
             _getch();
             break;
         }
@@ -164,6 +175,8 @@ void ModeCustom::ResultTest()
     userGrade.countTrueAnswer = countTrueAnswer;
     userGrade.percentTrueAnswer = (countTrueAnswer / countQuestions) * 100;
 
+    userGrade.nameChapter = fullNameChapter.substr(fullNameChapter.rfind("\\") + 1);
+
     int start = fullNameTest.rfind("\\") + 1;
     int end = fullNameTest.rfind(".");
 
@@ -174,8 +187,40 @@ void ModeCustom::PrintResult()
 {
     system("cls");
 
+    cout << "\n Название категории:            " << userGrade.nameChapter;
     cout << "\n Название теста:                " << userGrade.nameTest;
     cout << "\n Количество правильных ответов: " << userGrade.countTrueAnswer;
-    cout << "\n Процент правильных ответов:    " << userGrade.percentTrueAnswer;
-    cout << "\n Оценка:                        " << userGrade.grade;
+    cout << "\n Процент правильных ответов:    " << userGrade.percentTrueAnswer << "%";
+    cout << "\n Оценка:                        " << userGrade.grade << endl;
+}
+
+void ModeCustom::UpdateStat()
+{
+    int count = 0;
+
+    if (userStat.empty())
+    {
+        userStat.push_back(userGrade);
+    }
+    else
+    {
+        for (auto it : userStat)
+        {
+            if (it.nameChapter == userGrade.nameChapter && it.nameTest == userGrade.nameTest)
+            {
+                it.countTrueAnswer = userGrade.countTrueAnswer;
+                it.percentTrueAnswer = userGrade.percentTrueAnswer;
+                it.grade = userGrade.grade;
+
+                break;
+            } 
+
+            count++;
+        }
+
+        if (count == userStat.size())
+        {
+            userStat.push_back(userGrade);
+        }
+    }
 }

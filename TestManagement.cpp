@@ -652,6 +652,11 @@ string TestManagement::GetCurrentTest()
     return currentTest;
 }
 
+string TestManagement::GetCurrentChapter()
+{
+    return chapter;
+}
+
 TestManagement::TestManagement()
 {
     LoadingTestsTree(testsTree, rootCatalog);

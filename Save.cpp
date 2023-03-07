@@ -68,7 +68,7 @@ void Save::OpenFile(string path)
     outf.open(path, ios::out);
 }
 
-void Save::SaveTest(const vector<Question> questions)
+void Save::SaveTest(const vector<Question>& questions)
 {
     for (auto elem : questions)
     {
@@ -81,5 +81,20 @@ void Save::SaveTest(const vector<Question> questions)
         outf << elem.answer_3 << endl;
         outf << elem.answer_4 << endl;
         outf << elem.trueAnswer;
+    }
+}
+
+void Save::SavingUserStat(const vector<UserGrade>& userStat)
+{
+    for (auto elem : userStat)
+    {
+        if (outf.tellp())
+            outf << "\n";
+
+        outf << elem.nameChapter << endl;
+        outf << elem.nameTest << endl;
+        outf << elem.countTrueAnswer << endl;
+        outf << elem.percentTrueAnswer << endl;
+        outf << elem.grade;
     }
 }

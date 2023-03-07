@@ -20,6 +20,7 @@ public:
     void SaveToFile(const vector<Person*>& person);
     void CloseFile();
     void OpenFile(string path);
-    void SaveTest(const vector<Question> questions);
+    void SaveTest(const vector<Question>& questions);
+    void SavingUserStat(const vector<UserGrade>& userStat);
 };
 

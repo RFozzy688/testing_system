@@ -120,3 +120,33 @@ void Load::LoadTest(vector<Question>& questions)
         questions.back().trueAnswer = number;
     }
 }
+
+void Load::LoadingUserStat(vector<UserGrade>& userStat)
+{
+    if (inf.peek() == EOF)
+    {
+        return;
+    }
+
+    UserGrade userGrade;
+    userStat.clear();
+    string str;
+    int number;
+
+    while (!inf.eof())
+    {
+        userStat.push_back(userGrade);
+
+        getline(inf, userStat.back().nameChapter);
+        getline(inf, userStat.back().nameTest);
+        getline(inf, str);
+        number = stoi(str);
+        userStat.back().countTrueAnswer;
+        getline(inf, str);
+        number = stoi(str);
+        userStat.back().percentTrueAnswer;
+        getline(inf, str);
+        number = stoi(str);
+        userStat.back().grade;
+    }
+}

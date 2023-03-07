@@ -17,7 +17,9 @@ class ModeCustom
     vector<Question> questions;
     vector<int> userAnswer;
     string fullNameTest;
+    string fullNameChapter;
     UserGrade userGrade;
+    vector<UserGrade> userStat;
 
     void ClearScreen(COORD pos);
 
@@ -30,5 +32,6 @@ public:
     void Testing();
     void ResultTest();
     void PrintResult();
+    void UpdateStat();
 };
 
