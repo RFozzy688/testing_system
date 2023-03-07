@@ -8,6 +8,7 @@
 #include "Save.h"
 #include "Load.h"
 #include "TestManagement.h"
+#include "Question.h"
 
 class ModeAdmin
 {
@@ -15,6 +16,7 @@ class ModeAdmin
     vector<Person*> person;
     vector<Person*>::iterator iter;
     HANDLE hConsole;
+    vector<UserGrade> userStat;
 
     int CheckInputIndex();
     void ClearScreen(COORD pos);
@@ -28,5 +30,7 @@ public:
     int PrintMainMenu();
     vector<Person*>::iterator ChoiceUser();
     void DeleteUserFolder();
+    void PrintUserStat();
+    void PrintUsers();
 };
 

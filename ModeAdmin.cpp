@@ -163,6 +163,57 @@ void ModeAdmin::StartMode()
         }
         case 52: // 4
         {
+            Load load("dbpersons.txt");
+            load.LoadDataPersons(person);
+            load.CloseFile();
+
+            system("cls");
+            int number;
+            COORD pos;
+
+            pos.Y = 7;
+            pos.X = 0;
+            SetConsoleCursorPosition(hConsole, pos);
+            PrintUsers();
+
+            pos.Y = 0;
+            pos.X = 0;
+            SetConsoleCursorPosition(hConsole, pos);
+
+            cout << "\n Статистика\n";
+            cout << "\n Номер пользователя: ";
+
+            while (true)
+            {
+                cin >> number;
+
+                if (cin.fail() || number <= 0 || number >= person.size())
+                {
+                    cin.clear();
+                    cin.ignore();
+                    pos.Y = 3;
+                    pos.X = 21;
+                    ClearScreen(pos);
+                    SetConsoleCursorPosition(hConsole, pos);
+                    continue;
+                }
+                else
+                {
+                    break;
+                }
+            }
+
+            string path;
+            path = "users\\" + person[number]->GetLogin() + "\\" + person[number]->GetLogin() + "_stat.txt";
+
+            load.OpenFile(path);
+            load.LoadingUserStat(userStat);
+            load.CloseFile();
+
+            PrintUserStat();
+
+            DeleteVector();
+            _getch();
             break;
         }
         case 53: // 5 Test Management
@@ -286,5 +337,61 @@ void ModeAdmin::DeleteUserFolder()
     {
         string path = "users\\" + obj->GetLogin();
         filesystem::remove_all(path);
+    }
+}
+
+void ModeAdmin::PrintUserStat()
+{
+    system("cls");
+
+    cout << "\n Полная статистика\n\n";
+    cout << "\t\t\t\t\t\tПравильные ответы\tПроцент правильных ответов\tОценка\n\n";
+
+    string prevNameChapter = "";
+    COORD pos;
+    pos.Y = 5;
+
+    for (auto it : userStat)
+    {
+        string temp;
+
+        if (prevNameChapter != it.nameChapter)
+        {
+            cout << " " << it.nameChapter << endl;
+            pos.Y += 1;
+        }
+        prevNameChapter = it.nameChapter;
+        cout << "   " << it.nameTest;
+
+        pos.X = 55;
+        SetConsoleCursorPosition(hConsole, pos);
+        cout << it.countTrueAnswer;
+        pos.X += 25;
+        SetConsoleCursorPosition(hConsole, pos);
+        cout << it.percentTrueAnswer;
+        pos.X += 26;
+        SetConsoleCursorPosition(hConsole, pos);
+        cout << it.grade << endl;
+
+        pos.Y += 1;
+    }
+}
+
+void ModeAdmin::PrintUsers()
+{
+    bool flag = true;
+    int count = 1;
+
+    for (auto it : person)
+    {
+        if (flag)
+        {
+            flag = false;
+            continue;
+        }
+
+        cout << " " << count++ << ".";
+        it->PrintInfoPerson();
+        cout << endl;
     }
 }
