@@ -33,5 +33,6 @@ public:
     void ResultTest();
     void PrintResult();
     void UpdateStat();
+    void AllResultsTests();
 };
 

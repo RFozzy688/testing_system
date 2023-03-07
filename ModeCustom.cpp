@@ -84,6 +84,8 @@ void ModeCustom::StartMode()
         }
         case 50: // 2
         {
+            AllResultsTests();
+            _getch();
             break;
         }
         default:
@@ -224,5 +226,42 @@ void ModeCustom::UpdateStat()
         {
             userStat.push_back(userGrade);
         }
+    }
+}
+
+void ModeCustom::AllResultsTests()
+{
+    system("cls");
+
+    cout << "\n Полная статистика\n\n";
+    cout << "\t\t\t\t\t\tПравильные ответы\tПроцент правильных ответов\tОценка\n\n";
+    
+    string prevNameChapter = "";
+    COORD pos;
+    pos.Y = 5;
+
+    for (auto it : userStat)
+    {
+        string temp;
+
+        if (prevNameChapter != it.nameChapter)
+        {
+            cout << " " << it.nameChapter << endl;
+            pos.Y += 1;
+        }
+        prevNameChapter = it.nameChapter;
+        cout << "   " << it.nameTest;
+
+        pos.X = 55;
+        SetConsoleCursorPosition(hConsole, pos);
+        cout << it.countTrueAnswer;
+        pos.X += 25;
+        SetConsoleCursorPosition(hConsole, pos);
+        cout << it.percentTrueAnswer;
+        pos.X += 26;
+        SetConsoleCursorPosition(hConsole, pos);
+        cout << it.grade << endl;
+
+        pos.Y += 1;
     }
 }
