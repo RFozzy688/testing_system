@@ -3,6 +3,7 @@
 #include <conio.h>
 #include <Windows.h>
 #include <vector>
+#include <cmath>
 #include "User.h"
 #include "TestManagement.h"
 #include "Load.h"
@@ -14,7 +15,9 @@ class ModeCustom
     User* user;
     HANDLE hConsole;
     vector<Question> questions;
-    vector<int> result;
+    vector<int> userAnswer;
+    string fullNameTest;
+    UserGrade userGrade;
 
     void ClearScreen(COORD pos);
 
@@ -25,5 +28,7 @@ public:
     void StartMode();
     int PrintMainMenu();
     void Testing();
+    void ResultTest();
+    void PrintResult();
 };
 

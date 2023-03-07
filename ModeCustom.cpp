@@ -19,6 +19,7 @@ ModeCustom::ModeCustom(User* user)
 {
     this->user = user;
     hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
+    userGrade = { };
 }
 
 ModeCustom::~ModeCustom()
@@ -60,11 +61,14 @@ void ModeCustom::StartMode()
 
             obj.ChoiceTest();
 
-            Load load(obj.GetCurrentTest());
+            fullNameTest = obj.GetCurrentTest();
+            Load load(fullNameTest);
             load.LoadTest(questions);
             load.CloseFile();
 
             Testing();
+            ResultTest();
+            PrintResult();
             _getch();
             break;
         }
@@ -134,6 +138,44 @@ void ModeCustom::Testing()
             }
         }
 
+        userAnswer.push_back(answer);
+    }
+}
+
+void ModeCustom::ResultTest()
+{
+    float countTrueAnswer = 0;
+    float countQuestions = questions.size();
+    float grade = 0;
+
+    vector<int>::iterator iter_result = userAnswer.begin();
+
+    for (auto it : questions)
+    {
+        if (it.trueAnswer == *iter_result)
+        {
+            countTrueAnswer++;
+            iter_result++;
+        }
     }
 
+    grade = (countTrueAnswer / countQuestions) * 12;
+    userGrade.grade = round(grade);
+    userGrade.countTrueAnswer = countTrueAnswer;
+    userGrade.percentTrueAnswer = (countTrueAnswer / countQuestions) * 100;
+
+    int start = fullNameTest.rfind("\\") + 1;
+    int end = fullNameTest.rfind(".");
+
+    userGrade.nameTest = fullNameTest.substr(start, end - start);
+}
+
+void ModeCustom::PrintResult()
+{
+    system("cls");
+
+    cout << "\n Название теста:                " << userGrade.nameTest;
+    cout << "\n Количество правильных ответов: " << userGrade.countTrueAnswer;
+    cout << "\n Процент правильных ответов:    " << userGrade.percentTrueAnswer;
+    cout << "\n Оценка:                        " << userGrade.grade;
 }

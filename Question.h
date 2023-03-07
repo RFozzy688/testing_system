@@ -11,3 +11,11 @@ struct Question
     string answer_4;
     int trueAnswer;
 };
+
+struct UserGrade
+{
+    string nameTest;
+    int countTrueAnswer;
+    int percentTrueAnswer;
+    int grade;
+};
