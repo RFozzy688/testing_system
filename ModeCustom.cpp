@@ -67,7 +67,6 @@ void ModeCustom::StartMode()
 
             fullNameTest = obj.GetCurrentTest();
             fullNameChapter = obj.GetCurrentChapter();
-            SetConsoleCP(1251);
             Load load(fullNameTest);
             load.LoadTest(questions);
             load.CloseFile();
@@ -113,6 +112,8 @@ void ModeCustom::Testing()
     int answer;
     int count = 1;
     COORD pos;
+
+    userAnswer.clear();
 
     for (auto it : questions)
     {
@@ -196,6 +197,7 @@ void ModeCustom::PrintResult()
 
 void ModeCustom::UpdateStat()
 {
+
     int count = 0;
 
     if (userStat.empty())
@@ -204,13 +206,13 @@ void ModeCustom::UpdateStat()
     }
     else
     {
-        for (auto it : userStat)
+        for (auto it = userStat.begin(); it != userStat.end(); it++)
         {
-            if (it.nameChapter == userGrade.nameChapter && it.nameTest == userGrade.nameTest)
+            if (it->nameChapter == userGrade.nameChapter && it->nameTest == userGrade.nameTest)
             {
-                it.countTrueAnswer = userGrade.countTrueAnswer;
-                it.percentTrueAnswer = userGrade.percentTrueAnswer;
-                it.grade = userGrade.grade;
+                it->countTrueAnswer = userGrade.countTrueAnswer;
+                it->percentTrueAnswer = userGrade.percentTrueAnswer;
+                it->grade = userGrade.grade;
 
                 break;
             } 

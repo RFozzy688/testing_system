@@ -613,8 +613,6 @@ void TestManagement::AddQuestion()
 {
     Question testQuestion;
 
-    questions.clear();
-
     while (true)
     {
         system("cls");
@@ -764,14 +762,15 @@ void TestManagement::StartTestManagement()
                         DeleteQuestion();
                         break;
                     }
-                default:
-                    break;
+                    default:
+                    {
+                        Save save(currentTest);
+                        save.SaveTest(questions);
+                        save.CloseFile();
+                        break;
+                    }
                 }
             }
-
-            Save save(currentTest);
-            save.SaveTest(questions);
-            save.CloseFile();
             break;
         }
         case 51: // 3 Delete Test

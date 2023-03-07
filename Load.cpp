@@ -141,12 +141,12 @@ void Load::LoadingUserStat(vector<UserGrade>& userStat)
         getline(inf, userStat.back().nameTest);
         getline(inf, str);
         number = stoi(str);
-        userStat.back().countTrueAnswer;
+        userStat.back().countTrueAnswer = number;
         getline(inf, str);
         number = stoi(str);
-        userStat.back().percentTrueAnswer;
+        userStat.back().percentTrueAnswer = number;
         getline(inf, str);
         number = stoi(str);
-        userStat.back().grade;
+        userStat.back().grade = number;
     }
 }
